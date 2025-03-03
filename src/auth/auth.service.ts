@@ -1,4 +1,10 @@
-import { Injectable, ConflictException, BadRequestException, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  ConflictException,
+  BadRequestException,
+  InternalServerErrorException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 import { UsersService } from '../users/users.service';
@@ -9,12 +15,17 @@ import axios from 'axios';
 export class AuthService {
   constructor(
     private readonly usersService: UsersService,
-    private readonly jwtService: JwtService
+    private readonly jwtService: JwtService,
   ) {}
 
   // 🔹 REGISTRO DE USUÁRIO
   async register(registerDto: RegisterDto) {
-    if (!registerDto || !registerDto.email || !registerDto.name || !registerDto.password) {
+    if (
+      !registerDto ||
+      !registerDto.email ||
+      !registerDto.name ||
+      !registerDto.password
+    ) {
       throw new BadRequestException('Todos os campos são obrigatórios');
     }
 
@@ -46,12 +57,18 @@ export class AuthService {
       const hashedPassword = await bcrypt.hash(password, 10);
 
       // 🔹 Criação do usuário no banco de dados
-      const newUser = await this.usersService.create(cleanName, cleanEmail, hashedPassword);
+      const newUser = await this.usersService.create(
+        cleanName,
+        cleanEmail,
+        hashedPassword,
+      );
 
       return { message: 'Usuário criado com sucesso', userId: newUser.id };
     } catch (error) {
       console.error('Erro ao registrar usuário:', error);
-      throw new InternalServerErrorException('Erro ao registrar usuário. Tente novamente.');
+      throw new InternalServerErrorException(
+        'Erro ao registrar usuário. Tente novamente.',
+      );
     }
   }
 
@@ -64,7 +81,11 @@ export class AuthService {
       const response = await axios.get(url);
       console.log('🔍 Resposta da API:', response.data); // Para debug
 
-      return response.data.format_valid && response.data.mx_found && response.data.smtp_check;
+      return (
+        response.data.format_valid &&
+        response.data.mx_found &&
+        response.data.smtp_check
+      );
     } catch (error) {
       console.error('Erro ao validar e-mail:', error);
       return false;
@@ -90,7 +111,7 @@ export class AuthService {
     return this.generateTokens(user.id, user.email);
   }
 
-  // 🔹 GERA ACCESS TOKEN E REFRESH TOKEN 
+  // 🔹 GERA ACCESS TOKEN E REFRESH TOKEN
   private generateTokens(userId: number, email: string) {
     const payload = { sub: userId, email };
 

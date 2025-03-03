@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, BadRequestException, UseGuards, Req } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  BadRequestException,
+  UseGuards,
+  Req,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CreateUserDto } from 'src/auth/dto/create-user.dto';
@@ -20,7 +28,9 @@ export class UsersController {
     const { name, email, password } = createUserDto;
 
     if (!name || !email || !password) {
-      throw new BadRequestException('Os campos nome, email e senha são obrigatórios.');
+      throw new BadRequestException(
+        'Os campos nome, email e senha são obrigatórios.',
+      );
     }
 
     return this.usersService.create(name, email, password);

@@ -4,7 +4,6 @@ import { User } from './users.entity';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 
-
 @Module({
   imports: [TypeOrmModule.forFeature([User])], // Importando a entidade User
   controllers: [UsersController],
