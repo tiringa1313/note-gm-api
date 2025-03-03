@@ -12,13 +12,10 @@ import { AuthModule } from '../auth/auth.module';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
-        host: configService.get<string>('DB_HOST'),
-        port: Number(configService.get<string>('DB_PORT')) || 5432, // 🔥 Correção na conversão
-        username: configService.get<string>('DB_USER'),
-        password: configService.get<string>('DB_PASS'),
-        database: configService.get<string>('DB_NAME'),
-        autoLoadEntities: true, // Carrega todas as entidades automaticamente
-        synchronize: configService.get<string>('DB_SYNC') === 'true', // 🔥 Correção na conversão
+        url: configService.get<string>('DATABASE_URL') || 
+             'postgresql://frota_db_gu2a_user:t2QPsGG2gzMnL99EYvTsLVqCFMg21CJR@dpg-cuv1udt6l47c73eemtt0-a.oregon-postgres.render.com/frota_db_gu2a', // 🔥 URL do Render como fallback
+        autoLoadEntities: true, 
+        synchronize: false, // ❌ Nunca use true em produção
       }),
     }),
     UsersModule,
@@ -26,4 +23,3 @@ import { AuthModule } from '../auth/auth.module';
   ],
 })
 export class AppModule {}
-
