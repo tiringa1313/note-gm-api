@@ -73,24 +73,24 @@ export class AuthService {
   }
 
   // 🔹 FUNÇÃO PARA VERIFICAR O E-MAIL VIA MAILBOXLAYER
-  async verifyEmailAPI(email: string): Promise<boolean> {
-    const apiKey = 'be4c19ceb5ab30630074bb359fe99a06'; // 🔹 Substitua pela sua chave da API
-    const url = `http://apilayer.net/api/check?access_key=${apiKey}&email=${email}&smtp=1&format=1`;
+async verifyEmailAPI(email: string): Promise<boolean> {
+  const apiKey = 'be4c19ceb5ab30630074bb359fe99a06'; // 🔹 Substitua pela sua chave da API
+  const url = `http://apilayer.net/api/check?access_key=${apiKey}&email=${email}&smtp=1&format=1;`;
 
-    try {
-      const response = await axios.get(url);
-      console.log('🔍 Resposta da API:', response.data); // Para debug
+  try {
+    const response = await axios.get(url);
+    console.log('🔍 Resposta da API:', response.data); // Para debug
 
-      return (
-        response.data.format_valid &&
-        response.data.mx_found &&
-        response.data.smtp_check
-      );
-    } catch (error) {
-      console.error('Erro ao validar e-mail:', error);
-      return false;
-    }
+    return (
+      response.data.format_valid && // ✅ Verifica se o formato do e-mail é válido
+      response.data.mx_found // ✅ Verifica se o domínio do e-mail tem um servidor de e-mail ativo
+    );
+  } catch (error) {
+    console.error('Erro ao validar e-mail:', error);
+    return false;
   }
+}
+
 
   // 🔹 LOGIN: Gera Access e Refresh Token
   async login(email: string, password: string) {
