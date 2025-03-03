@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { UsersModule } from 'src/users/users.module';
-import { AuthModule } from 'src/auth/auth.module';
+import { UsersModule } from '../users/users.module';  // Caminho atualizado
+import { AuthModule } from '../auth/auth.module';    // Caminho atualizado
 
 
 @Module({
