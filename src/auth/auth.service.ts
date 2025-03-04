@@ -96,7 +96,7 @@ export class AuthService {
     const user = await this.usersService.findOneByEmail(email, true);
 
     if (!user) {
-      throw new UnauthorizedException('Usuário não registrado');
+      throw new UnauthorizedException('Usuário não cadastrado');
     }
 
     // 🔹 Comparando a senha digitada com o hash armazenado no banco
