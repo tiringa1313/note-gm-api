@@ -74,7 +74,7 @@ export class AuthService {
 
   // 🔹 FUNÇÃO PARA VERIFICAR O E-MAIL VIA MAILBOXLAYER
 async verifyEmailAPI(email: string): Promise<boolean> {
-  const apiKey = 'be4c19ceb5ab30630074bb359fe99a06'; // 🔹 Substitua pela sua chave da API
+  const apiKey = '7b148691b976560132809afdff505901'; // 🔹 Substitua pela sua chave da API
   const url = `http://apilayer.net/api/check?access_key=${apiKey}&email=${email}&smtp=1&format=1;`;
 
   try {
